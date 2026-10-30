@@ -1,0 +1,246 @@
+.gateway-page {
+  padding: 80px 20px;
+  background-color: #f1f5f9; /* Mimic a clean bank gateway theme (light background) */
+  min-height: calc(100vh - 200px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.gateway-container {
+  max-width: 500px;
+  width: 100%;
+}
+
+.gateway-card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 30px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+  color: #1e293b;
+}
+
+.gateway-branding {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+}
+
+.gateway-logo {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #1e3a8a;
+  letter-spacing: -0.5px;
+}
+
+.sandbox-badge {
+  background-color: #fef3c7;
+  color: #d97706;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid #fde68a;
+}
+
+.gateway-merchant-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background-color: #f8fafc;
+  padding: 15px;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+  margin-bottom: 20px;
+}
+
+.gateway-merchant-info div {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+}
+
+.gateway-merchant-info .label {
+  color: #64748b;
+}
+
+.gateway-merchant-info .value {
+  color: #334155;
+}
+
+.gateway-merchant-info .text-accent {
+  color: #2563eb;
+  font-family: monospace;
+  font-size: 0.95rem;
+}
+
+.gateway-merchant-info .text-price {
+  color: #0f172a;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.gateway-info-box {
+  background-color: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 6px;
+  padding: 12px 15px;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.gateway-info-box .info-icon {
+  color: #2563eb;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.gateway-info-box p {
+  font-size: 0.8rem;
+  color: #1e3a8a;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.gateway-summary {
+  margin-bottom: 25px;
+}
+
+.gateway-summary h3 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #475569;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.gateway-summary ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.85rem;
+}
+
+.gateway-summary ul li {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px dashed #e2e8f0;
+  padding-bottom: 4px;
+}
+
+.gateway-summary ul li span {
+  color: #64748b;
+}
+
+.gateway-summary ul li strong {
+  color: #334155;
+}
+
+.gateway-summary .text-slug {
+  font-family: monospace;
+  font-size: 0.8rem;
+}
+
+.gateway-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.action-form {
+  width: 100%;
+}
+
+.simulator-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.success-btn {
+  background-color: #10b981;
+  color: white;
+  box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);
+}
+
+.success-btn:hover {
+  background-color: #059669;
+  transform: translateY(-1px);
+}
+
+.failure-btn {
+  background-color: #ef4444;
+  color: white;
+  box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.2);
+}
+
+.failure-btn:hover {
+  background-color: #dc2626;
+  transform: translateY(-1px);
+}
+
+.gateway-footer {
+  text-align: center;
+  font-size: 0.75rem;
+  color: #94a3b8;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 15px;
+}
+
+/* Error fallback styling */
+.gateway-error-container {
+  max-width: 400px;
+  margin: 100px auto;
+  text-align: center;
+  padding: 40px;
+  background-color: #1e293b;
+  border-radius: 12px;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.gateway-error-container .error-icon {
+  color: #ef4444;
+  margin-bottom: 20px;
+}
+
+.gateway-error-container h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.gateway-error-container p {
+  color: #94a3b8;
+  font-size: 0.95rem;
+  margin-bottom: 25px;
+}
+
+.gateway-error-container .back-btn {
+  background-color: #6366f1;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}

@@ -1,0 +1,221 @@
+/* Student Projects Grid Layout */
+.student-projects-section {
+  background-color: var(--color-bg-white);
+  border-top: 1px solid var(--color-border);
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
+/* Card Visuals */
+.student-project-card {
+  background: white;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.student-project-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-primary-light);
+}
+
+/* Card Thumbnail Image */
+.project-thumbnail-wrapper {
+  height: 200px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background-color: #e2e8f0;
+}
+
+.project-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.student-project-card:hover .project-thumb-img {
+  transform: scale(1.05);
+}
+
+/* Floating Placement Badge */
+.placement-floating-badge {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  background: rgba(11, 15, 25, 0.85);
+  backdrop-filter: blur(8px);
+  color: white;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.placement-floating-badge strong {
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+/* Card Content Body */
+.project-card-body {
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+/* Developer Header Slot */
+.student-developer-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.developer-avatar-placeholder {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+  border: 1px solid var(--color-primary-dark);
+}
+
+.student-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.student-role {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+/* Project Copy */
+.project-card-title {
+  font-size: 1.2rem;
+  color: var(--color-primary-dark);
+  font-family: var(--font-headers);
+  font-weight: 750;
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.project-card-desc {
+  font-size: 0.88rem;
+  color: var(--color-text-light);
+  line-height: 1.5;
+  margin-bottom: 20px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex-grow: 1;
+}
+
+/* Mini Technology Badges */
+.project-tech-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 25px;
+  border-top: 1px solid var(--color-border);
+  padding-top: 15px;
+}
+
+.tech-mini-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: var(--color-bg-alt);
+  color: var(--color-primary-dark);
+  padding: 4px 10px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid var(--color-border);
+}
+
+.tech-mini-tag.more {
+  background: none;
+  color: var(--color-text-muted);
+  border: 1px dashed var(--color-text-muted);
+}
+
+/* Action Links Bar */
+.project-actions-grid {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-top: auto;
+}
+
+.btn-full {
+  flex-grow: 1;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  gap: 6px;
+}
+
+.external-project-links {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-outline-light {
+  border: 1px solid var(--color-border);
+  color: var(--color-text-light);
+  background: white;
+}
+
+.btn-outline-light:hover {
+  background: var(--color-bg-alt);
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.btn-icon-sm {
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+}
+
+/* Responsive Modifiers */
+@media (max-width: 576px) {
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+  .project-thumbnail-wrapper {
+    height: 180px;
+  }
+}

@@ -1,0 +1,222 @@
+.thank-you-page {
+  min-height: 100vh;
+  background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
+  padding: 80px 20px;
+  color: #f8fafc;
+  display: flex;
+  align-items: center;
+}
+
+.thank-you-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Thank You Header Card */
+.thank-you-card {
+  background: rgba(30, 41, 59, 0.45);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 40px;
+  text-align: center;
+  margin-bottom: 40px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.success-icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  border-radius: 50%;
+  margin-bottom: 24px;
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.15);
+}
+
+.thank-you-card h1 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 16px;
+  letter-spacing: -0.5px;
+}
+
+.thank-you-card p {
+  color: #cbd5e1;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+/* Syllabus Section */
+.syllabus-section {
+  margin-bottom: 40px;
+}
+
+.syllabus-section .section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.syllabus-section h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+/* Syllabus Grid */
+.syllabus-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+.syllabus-card {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.syllabus-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(99, 102, 241, 0.3);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}
+
+.highlighted-card {
+  background: rgba(99, 102, 241, 0.08);
+  border-color: rgba(99, 102, 241, 0.4);
+}
+
+.highlighted-card:hover {
+  border-color: rgba(99, 102, 241, 0.6);
+  box-shadow: 0 12px 30px rgba(99, 102, 241, 0.15);
+}
+
+.download-badge {
+  position: absolute;
+  top: -12px;
+  right: 16px;
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
+}
+
+.syllabus-card h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 10px 0;
+  line-height: 1.4;
+  flex-grow: 0;
+}
+
+.duration-tag {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  margin: 0 0 20px 0;
+  font-weight: 600;
+}
+
+.download-btn {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 12px;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.download-btn:hover {
+  background: #ffffff;
+  color: #0f172a;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.15);
+}
+
+.highlighted-card .download-btn {
+  background: #6366f1;
+  border-color: #6366f1;
+}
+
+.highlighted-card .download-btn:hover {
+  background: #4f46e5;
+  border-color: #4f46e5;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+}
+
+.no-download {
+  margin-top: auto;
+  font-size: 0.9rem;
+  color: #475569;
+  text-align: center;
+  padding: 12px;
+  border: 1px dashed rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+
+/* Action Link Footer */
+.action-links {
+  text-align: center;
+  margin-top: 24px;
+}
+
+.back-home-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #94a3b8;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.back-home-link:hover {
+  color: #6366f1;
+}
+
+.loading-placeholder {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px;
+  color: #475569;
+  font-style: italic;
+}
+
+@media (max-width: 640px) {
+  .thank-you-page {
+    padding: 40px 15px;
+  }
+  .thank-you-card {
+    padding: 30px 20px;
+  }
+  .thank-you-card h1 {
+    font-size: 1.75rem;
+  }
+}

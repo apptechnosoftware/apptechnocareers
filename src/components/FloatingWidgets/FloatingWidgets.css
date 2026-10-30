@@ -1,0 +1,431 @@
+/* Floating Widgets System */
+
+.floating-widgets-container {
+  position: relative;
+  z-index: 9999;
+}
+
+/* 1. WhatsApp Floating Button (Left Side) */
+.whatsapp-float-btn {
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+  width: 56px;
+  height: 56px;
+  background-color: #25d366;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.3);
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 9999;
+}
+
+.whatsapp-float-btn:hover {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 12px 28px rgba(37, 211, 102, 0.5);
+}
+
+.whatsapp-svg-icon {
+  width: 32px;
+  height: 32px;
+  fill: white;
+}
+
+/* Tooltip effect */
+.whatsapp-tooltip {
+  position: absolute;
+  left: 70px;
+  background: #1f2937;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 6px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-10px);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.whatsapp-float-btn:hover .whatsapp-tooltip {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Ring Pulsing Animation */
+.pulse-ring {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border: 2px solid #25d366;
+  border-radius: 50%;
+  animation: whatsapp-pulse 2s infinite;
+  opacity: 0.7;
+}
+
+@keyframes whatsapp-pulse {
+  0% { transform: scale(1); opacity: 0.7; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+
+/* 2. We Are Here Support Chat (Right Side) */
+.support-chat-wrapper {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+/* Curved Text Curve Display */
+.support-trigger-area {
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.support-trigger-area:hover {
+  transform: translateY(-4px);
+}
+
+.curved-text-container {
+  position: absolute;
+  top: -38px;
+  width: 110px;
+  height: 40px;
+  pointer-events: none;
+}
+
+.curved-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.curved-text-node {
+  font-size: 10px;
+  font-weight: 800;
+  fill: #047857; /* Darker Emerald for legibility */
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  /* Create an outline using text-shadow trick in SVG */
+  filter: drop-shadow(1px 1px 0 white) drop-shadow(-1px -1px 0 white) drop-shadow(1px -1px 0 white) drop-shadow(-1px 1px 0 white);
+}
+
+.chat-trigger-btn {
+  width: 60px;
+  height: 60px;
+  background-color: #00a884; /* Beautiful emerald green chat branding */
+  color: white;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(0, 168, 132, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.chat-trigger-btn.active-pulse {
+  background-color: #ef4444; /* Swaps to red when active to encourage close */
+  transform: rotate(90deg);
+}
+
+
+/* Interactive Chat Popup Window Styling */
+.support-popup-panel {
+  position: absolute;
+  bottom: 80px;
+  right: 0;
+  width: 320px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px) scale(0.95);
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transform-origin: bottom right;
+}
+
+.support-popup-panel.popup-active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.popup-header {
+  background: linear-gradient(135deg, #00a884 0%, #059669 100%);
+  padding: 20px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.popup-header-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  background: #10b981;
+  border: 2px solid white;
+  border-radius: 50%;
+  display: inline-block;
+  animation: pulse-dot 2s infinite;
+}
+
+@keyframes pulse-dot {
+  0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  70% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.popup-header-info h4 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.popup-header-info p {
+  margin: 2px 0 0 0;
+  font-size: 0.75rem;
+  opacity: 0.9;
+}
+
+.popup-close-btn {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.8);
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.popup-close-btn:hover {
+  background: rgba(255,255,255,0.15);
+  color: white;
+}
+
+.popup-body {
+  padding: 16px;
+  background-color: #f9fafb;
+  min-height: 200px;
+  max-height: 320px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.chat-bubble-incoming {
+  background: white;
+  padding: 14px 16px;
+  border-radius: 14px 14px 14px 4px;
+  font-size: 0.88rem;
+  color: #374151;
+  line-height: 1.5;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  border: 1px solid #edf2f7;
+  align-self: flex-start;
+  max-width: 90%;
+}
+
+/* Visitor Name Form */
+.visitor-name-form {
+  background: white;
+  border-radius: 12px;
+  padding: 14px 16px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+
+.name-prompt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #6b7280;
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.name-input-row {
+  display: flex;
+  gap: 8px;
+}
+
+.visitor-name-input {
+  flex: 1;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  outline: none;
+  transition: border 0.2s;
+}
+
+.visitor-name-input:focus {
+  border-color: #00a884;
+}
+
+.name-submit-btn {
+  background: #00a884;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+
+.name-submit-btn:hover {
+  background: #059669;
+}
+
+/* Chat Messages */
+.chat-msg {
+  display: flex;
+}
+
+.chat-msg-outgoing {
+  justify-content: flex-end;
+}
+
+.chat-msg-incoming {
+  justify-content: flex-start;
+}
+
+.chat-msg-bubble {
+  max-width: 85%;
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  position: relative;
+}
+
+.chat-msg-outgoing .chat-msg-bubble {
+  background: linear-gradient(135deg, #00a884, #059669);
+  color: white;
+  border-radius: 14px 14px 4px 14px;
+}
+
+.chat-msg-incoming .chat-msg-bubble {
+  background: white;
+  color: #374151;
+  border-radius: 14px 14px 14px 4px;
+  border: 1px solid #edf2f7;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+}
+
+.chat-msg-sender {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+  opacity: 0.7;
+}
+
+.chat-msg-outgoing .chat-msg-sender {
+  color: rgba(255,255,255,0.8);
+}
+
+.chat-msg-incoming .chat-msg-sender {
+  color: #3b82f6;
+}
+
+.chat-msg-time {
+  display: block;
+  font-size: 0.62rem;
+  text-align: right;
+  margin-top: 4px;
+  opacity: 0.5;
+}
+
+.popup-footer {
+  padding: 15px;
+  border-top: 1px solid #e5e7eb;
+  background: white;
+  display: flex;
+  gap: 10px;
+}
+
+.popup-footer input {
+  flex: 1;
+  border: 1px solid #d1d5db;
+  border-radius: 20px;
+  padding: 8px 15px;
+  font-size: 0.85rem;
+  outline: none;
+  transition: border 0.2s;
+}
+
+.popup-footer input:focus {
+  border-color: #00a884;
+}
+
+.send-btn {
+  background-color: #00a884;
+  color: white;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.send-btn:hover {
+  background-color: #059669;
+}
+
+/* Ensure it looks decent on very narrow phones */
+@media (max-width: 480px) {
+  .whatsapp-float-btn {
+    bottom: 20px;
+    left: 20px;
+    width: 48px;
+    height: 48px;
+  }
+  .support-chat-wrapper {
+    bottom: 20px;
+    right: 20px;
+  }
+  .chat-trigger-btn {
+    width: 50px;
+    height: 50px;
+  }
+  .support-popup-panel {
+    width: calc(100vw - 40px);
+  }
+  .popup-body {
+    max-height: 250px;
+  }
+}

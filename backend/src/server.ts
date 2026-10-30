@@ -1,0 +1,519 @@
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import { connectDB } from './db';
+
+import path from 'path';
+import fs from 'fs';
+
+// Load env vars from multiple candidate paths to ensure compatibility with local dev and different cPanel/Passenger root setups
+const envPaths = [
+  path.join(__dirname, '../../.env'), // root folder (prod)
+  path.join(__dirname, '../.env'),    // backend folder (prod) or root folder (dev)
+  path.join(__dirname, './.env'),     // src folder (dev)
+  path.join(process.cwd(), '.env')    // current working directory
+];
+
+for (const envPath of envPaths) {
+  if (fs.existsSync(envPath)) {
+    dotenv.config({ path: envPath });
+    console.log(`Loaded environment variables from: ${envPath}`);
+    break;
+  }
+}
+
+// Production application startup logs logger (crucial for diagnostic feedback on cPanel Passenger)
+const crashLogPath = path.join(__dirname, '../../crash-log.txt');
+process.on('uncaughtException', (err) => {
+  const timestamp = new Date().toISOString();
+  const errorMessage = `[${timestamp}] Uncaught Exception:\n${err.stack || err.message || err}\n\n`;
+  try {
+    fs.appendFileSync(crashLogPath, errorMessage);
+  } catch (e) {}
+  process.exit(1);
+});
+process.on('unhandledRejection', (reason, promise) => {
+  const timestamp = new Date().toISOString();
+  const errorMessage = `[${timestamp}] Unhandled Rejection at: ${promise}\nReason: ${(reason as any)?.stack || reason}\n\n`;
+  try {
+    fs.appendFileSync(crashLogPath, errorMessage);
+  } catch (e) {}
+  process.exit(1);
+});
+
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
+
+const app = express();
+
+// Trust reverse proxy headers (crucial for rate-limiting client IPs instead of the cPanel Passenger loopback IP)
+app.set('trust proxy', 1);
+
+// Secure backend HTTP headers (configure CSP to allow scripts/styles, avoiding breakages in client)
+app.use(
+  helmet({
+    contentSecurityPolicy: false, // Managed by client meta tag or custom setup to prevent client bundle blocking
+    crossOriginEmbedderPolicy: false
+  })
+);
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // Crucial for parsing CCAvenue form POST callback payload
+app.use('/uploads', express.static(path.join(__dirname, '../../uploads')));
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+app.use('/uploads', express.static(path.join(__dirname, './uploads')));
+app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
+app.use('/uploads', express.static(path.join(__dirname, '../../public/uploads_placements')));
+app.use('/uploads', express.static(path.join(__dirname, '../dist/uploads_placements')));
+
+app.use('/uploads_receipts', express.static(path.join(__dirname, '../../uploads_receipts')));
+app.use('/uploads_receipts', express.static(path.join(__dirname, '../uploads_receipts')));
+
+app.use('/uploads_qr', express.static(path.join(__dirname, '../../uploads_qr')));
+app.use('/uploads_qr', express.static(path.join(__dirname, '../uploads_qr')));
+app.use('/uploads_qr', express.static(path.join(__dirname, '../../public/uploads_qr')));
+app.use('/uploads_qr', express.static(path.join(__dirname, '../../public')));
+
+app.use('/wp-content/uploads', express.static(path.join(__dirname, '../../wp-content/uploads')));
+
+// Anti-spam Rate Limiters
+const spamLimiter = rateLimit({
+  windowMs: 10 * 60 * 1000, // 10 minutes
+  max: 10, // Limit each IP to 10 submissions per window
+  message: { error: 'Too many submissions. Please try again after 10 minutes.' },
+  standardHeaders: true,
+  legacyHeaders: false
+});
+
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 10, // Limit each IP to 10 login requests per window
+  message: { error: 'Too many login attempts. Please try again after 15 minutes.' },
+  standardHeaders: true,
+  legacyHeaders: false
+});
+
+const chatLimiter = rateLimit({
+  windowMs: 10 * 60 * 1000, // 10 minutes
+  max: 50, // Limit each IP to 50 chat messages per window (allows active chat conversation, blocks floods)
+  message: { error: 'Too many messages sent. Please wait a moment before sending more.' },
+  standardHeaders: true,
+  legacyHeaders: false
+});
+
+// Routes
+import apiRoutes from './routes/api';
+import paymentRoutes from './routes/payment';
+
+// Apply rate limits on specific endpoints
+app.use('/api/inquiries', spamLimiter);
+app.use('/api/payment/initiate', spamLimiter);
+app.use('/api/admin/login', loginLimiter);
+app.use('/api/chat/messages', chatLimiter);
+
+app.use('/api', apiRoutes);
+app.use('/api/payment', paymentRoutes);
+
+// Active Database Connection
+connectDB();
+// Serve static assets from front-end dist directory with optimized cache headers
+const DIST_PATH = path.join(__dirname, '../../dist');
+app.use(express.static(DIST_PATH, {
+  index: false,
+  maxAge: '1d',
+  etag: true,
+  cacheControl: true,
+  setHeaders: (res, filePath) => {
+    // Hashed assets generated by Vite inside /assets can be cached permanently (1 year)
+    if (filePath.includes('assets' + path.sep) || filePath.includes('/assets/')) {
+      res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+    }
+  }
+}));
+
+// SPA Fallback wildcard route with Server-Side Meta Injection (SSMI)
+app.get('*', async (req, res) => {
+  const Course = require('./models/Course').default;
+  const StudentProject = require('./models/StudentProject').default;
+
+  const indexPath = path.join(DIST_PATH, 'index.html');
+  if (!fs.existsSync(indexPath)) {
+    return res.status(404).send('Frontend build not found. Please run build first.');
+  }
+
+  let html = fs.readFileSync(indexPath, 'utf8');
+
+  // Parse current request context for domain-agnostic canonical URLs
+  const reqPath = req.path;
+  const host = req.get('host') || 'test.appteknow.com';
+  const protocol = req.secure || req.headers['x-forwarded-proto'] === 'https' ? 'https' : 'http';
+  const canonicalUrl = `${protocol}://${host}${reqPath}`;
+
+  // Default Fallback SEO Metadata (Home page values)
+  let title = 'Best Job Training Institute in Bangalore | 100% Job Training - Appteknow Careers';
+  let description = 'Appteknow is the #1 Job Training Institute in Bangalore. Accelerate your career with specialized IT job training, live company projects, and 100% placement assist. Pay 50% after job!';
+  let keywords = 'software training with placement in bangalore, IT placement training in bangalore, pay after placement software courses in bangalore, best software training institute in BTM layout, IT training and placement institute bangalore';
+  let type = 'website';
+  let imageUrl = `${protocol}://${host}/hero-banner.png`;
+
+  // Helper function to build dynamic breadcrumbs schema
+  const getBreadcrumbs = (reqPath: string, pageName: string) => {
+    return {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": `https://${host}/`
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": pageName,
+          "item": `https://${host}${reqPath}`
+        }
+      ]
+    };
+  };
+
+  let schemaData: any = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "EducationalOrganization",
+        "name": "Appteknow Careers",
+        "url": `https://${host}`,
+        "logo": `https://${host}/logo.png`,
+        "description": "Bangalore's leading IT Job training institute providing courses in Full Stack Java, Python, and Data Analytics with Pay After Placement modules.",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "#15b, 1st Floor, Mico Layout BTM II Stage",
+          "addressLocality": "Bangalore",
+          "postalCode": "560076",
+          "addressRegion": "Karnataka",
+          "addressCountry": "IN"
+        },
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+91-70229-28198",
+          "contactType": "admissions",
+          "areaServed": "IN",
+          "availableLanguage": "en"
+        },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.9",
+          "bestRating": "5",
+          "reviewCount": "1250"
+        }
+      },
+      {
+        "@type": "LocalBusiness",
+        "name": "Appteknow Careers",
+        "image": `https://${host}/logo.png`,
+        "url": `https://${host}`,
+        "telephone": "+91-70229-28198",
+        "priceRange": "₹₹",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "#15b, 1st Floor, Mico Layout BTM II Stage",
+          "addressLocality": "Bangalore",
+          "postalCode": "560076",
+          "addressRegion": "Karnataka",
+          "addressCountry": "IN"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": "12.9165",
+          "longitude": "77.6101"
+        },
+        "openingHoursSpecification": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday"
+          ],
+          "opens": "09:00",
+          "closes": "18:00"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": `https://${host}/`
+          }
+        ]
+      }
+    ]
+  };
+
+  try {
+    if (reqPath === '/placements') {
+      title = 'Recent IT Placements & Success Stories - Appteknow Careers';
+      description = 'Explore our record-breaking placement numbers. Hundreds of students trained by active architects have joined Capgemini, TCS, Infosys, Wipro, and Cognizant.';
+      keywords = 'IT placement success stories bangalore, software training with placement in bangalore, software job placement results bangalore, pay after placement software courses bangalore';
+      schemaData = {
+        "@context": "https://schema.org",
+        "@graph": [getBreadcrumbs(reqPath, 'Placements')]
+      };
+    } else if (reqPath === '/contact') {
+      title = 'Contact Best Job Training Institute - AppTeknow Careers Bangalore';
+      description = 'Visit the premier Job Training Institute in BTM Layout, Bangalore. Connect with IT training career advisors directly to book a free demo class today!';
+      keywords = 'IT training institute BTM layout, appteknow address bangalore, contact IT placement training bangalore';
+      schemaData = {
+        "@context": "https://schema.org",
+        "@graph": [getBreadcrumbs(reqPath, 'Contact Us')]
+      };
+    } else if (reqPath === '/AI-Mock-Jobs') {
+      title = 'AI Mock & Jobs - Career Boost Placement App - Appteknow Careers';
+      description = 'Access Bangalore\'s finest AI Mock testing suite. Get instant scoring and technical diagnostics before clearing corporate interview rounds.';
+      keywords = 'AI mock interviews bangalore, job preparation with AI, interview coaching bangalore';
+      schemaData = {
+        "@context": "https://schema.org",
+        "@graph": [getBreadcrumbs(reqPath, 'AI Mock & Jobs')]
+      };
+    } else if (reqPath === '/learn-english-with-ai') {
+      title = 'AI English & Soft Skill Training App - Appteknow Careers';
+      description = 'Master client interactions and corporate communication using advanced speech algorithms. Accelerate conversational kinetics for global IT companies.';
+      keywords = 'english speaking course bangalore, communication skills training, business english bangalore';
+      schemaData = {
+        "@context": "https://schema.org",
+        "@graph": [getBreadcrumbs(reqPath, 'Learn English with AI')]
+      };
+    } else if (reqPath === '/on-going-interviews') {
+      title = 'Active IT Corporate Placements Drives & Ongoing Interviews - Appteknow Careers';
+      description = 'Check today\'s active recruitment pipelines and campus drives in Bangalore. Enrolled candidates get instant referrals with packages from 3.5L to 6.5L.';
+      keywords = 'placement drives bangalore, job recruitment bangalore, active job openings BTM layout';
+      schemaData = {
+        "@context": "https://schema.org",
+        "@graph": [getBreadcrumbs(reqPath, 'Ongoing Interviews')]
+      };
+    } else if (reqPath === '/thank-you-page') {
+      title = 'Thank You for Contacting Us - Syllabus Access';
+      description = 'Access your dynamic syllabus brochures and outline materials instantly.';
+      keywords = 'thank you, appteknow';
+      schemaData = null;
+    } else if (reqPath === '/privacy-policy' || reqPath === '/appteknow-privacy-policy') {
+      title = 'Privacy Policy - Appteknow Careers';
+      description = 'Read the official Privacy Policy of Appteknow Careers (EDGtal Academy LLP). Learn how we collect, protect, and handle your data.';
+      keywords = 'appteknow privacy policy, data privacy, privacy terms';
+      schemaData = {
+        "@context": "https://schema.org",
+        "@graph": [getBreadcrumbs(reqPath, 'Privacy Policy')]
+      };
+    } else if (reqPath === '/terms-and-conditions') {
+      title = 'Terms and Conditions - Appteknow Careers';
+      description = 'Read the official Terms and Conditions of Appteknow Careers (EDGtal Academy LLP).';
+      keywords = 'appteknow terms and conditions, terms of service, candidate code of conduct';
+      schemaData = {
+        "@context": "https://schema.org",
+        "@graph": [getBreadcrumbs(reqPath, 'Terms and Conditions')]
+      };
+    } else if (reqPath === '/disclaimer') {
+      title = 'Disclaimer - Appteknow Careers';
+      description = 'Official Disclaimer for Appteknow Careers website and training programs.';
+      keywords = 'appteknow disclaimer, website terms disclaimer';
+      schemaData = {
+        "@context": "https://schema.org",
+        "@graph": [getBreadcrumbs(reqPath, 'Disclaimer')]
+      };
+    } else if (reqPath.startsWith('/replica-project/')) {
+      const projectId = reqPath.split('/').pop();
+      const dbProject = await StudentProject.findOne({ where: { id: projectId } }) as any;
+      if (dbProject) {
+        title = `${dbProject.title} | Student Portfolio - Appteknow Careers`;
+        description = `Explore the professional software project built by ${dbProject.studentName} during their job training. Placed successfully at ${dbProject.placedCompany}.`;
+        keywords = 'student project showcase, software development portfolio, live coding sandbox bangalore';
+        type = 'article';
+        schemaData = {
+          "@context": "https://schema.org",
+          "@graph": [
+            getBreadcrumbs(reqPath, dbProject.title),
+            {
+              "@type": "CreativeWork",
+              "name": dbProject.title,
+              "headline": dbProject.title,
+              "description": dbProject.description,
+              "author": {
+                "@type": "Person",
+                "name": dbProject.studentName
+              },
+              "publisher": {
+                "@type": "Organization",
+                "name": "Appteknow Careers",
+                "logo": {
+                  "@type": "ImageObject",
+                  "url": `https://${host}/logo.png`
+                }
+              }
+            }
+          ]
+        };
+      }
+    } else if (reqPath.startsWith('/live-sandbox/')) {
+      const projectId = reqPath.split('/').pop();
+      const dbProject = await StudentProject.findOne({ where: { id: projectId } }) as any;
+      if (dbProject) {
+        title = `${dbProject.title} - Live Demonstration Sandbox | AppTeknow Careers`;
+        description = `Direct live application simulation of the capstone project engineered by ${dbProject.studentName}.`;
+        keywords = 'student project showcase, software development portfolio, live coding sandbox bangalore';
+        type = 'website';
+        schemaData = {
+          "@context": "https://schema.org",
+          "@graph": [getBreadcrumbs(reqPath, `${dbProject.title} Sandbox`)]
+        };
+      }
+    } else if (reqPath !== '/') {
+      // It's likely a course slug (e.g. /:slug)
+      const slug = reqPath.substring(1);
+      const dbCourse = await Course.findOne({ where: { slug } }) as any;
+      if (dbCourse) {
+        title = dbCourse.seoTitle || `${dbCourse.title} - Appteknow Careers`;
+        description = dbCourse.seoDesc || dbCourse.tagline;
+        type = 'website';
+
+        // Select correct keywords based on course slug
+        if (slug.startsWith('java-training')) {
+          keywords = 'java training in bangalore, java full stack course in bangalore, java placement training in bangalore, spring boot training bangalore, java job training with AI bangalore';
+        } else if (slug.startsWith('python-training')) {
+          keywords = 'python training in bangalore, python full stack course in bangalore, django training bangalore, python placement training in bangalore, python job guarantee bangalore';
+        } else if (slug.startsWith('mern-training') || slug.startsWith('mern-stack')) {
+          keywords = 'MERN stack training bangalore, react node.js training in bangalore, full stack javascript course in bangalore, MERN job training bangalore';
+        } else if (slug.startsWith('software-testing')) {
+          keywords = 'software testing training bangalore, selenium training in bangalore, QA automation course in bangalore, software testing job placement bangalore';
+        } else if (slug.startsWith('data-analytics')) {
+          keywords = 'data analytics course bangalore, power BI training in bangalore, data analyst job training bangalore, SQL training bangalore';
+        } else if (slug.startsWith('cyber-security')) {
+          keywords = 'cyber security course bangalore, ethical hacking training in bangalore, CEH training bangalore';
+        } else if (slug.startsWith('digital-marketing')) {
+          keywords = 'digital marketing course bangalore, SEO training in bangalore, Google Ads training in bangalore, social media marketing course in bangalore';
+        } else if (slug.startsWith('tally-training')) {
+          keywords = 'tally prime course bangalore, GST training in bangalore, accounting course bangalore';
+        } else if (slug.startsWith('generative-ai')) {
+          keywords = 'generative AI course bangalore, LLM training in bangalore, prompt engineering course in bangalore, AI developer training bangalore';
+        } else {
+          keywords = `${dbCourse.title} in bangalore, ${dbCourse.title} course, ${dbCourse.title} training`;
+        }
+
+        // Retrieve rich metrics for the Course Schema
+        const graph: any[] = [];
+        graph.push(getBreadcrumbs(reqPath, dbCourse.title));
+        graph.push({
+          "@type": "Course",
+          "name": dbCourse.title,
+          "description": dbCourse.seoDesc || dbCourse.tagline,
+          "provider": {
+            "@type": "EducationalOrganization",
+            "name": "Appteknow Careers",
+            "sameAs": `https://${host}`
+          },
+          "educationalLevel": "Intermediate to Advanced",
+          "offers": {
+            "@type": "Offer",
+            "category": "Professional IT Training",
+            "offeredBy": {
+              "@type": "EducationalOrganization",
+              "name": "Appteknow Careers"
+            }
+          },
+          "hasCourseInstance": {
+            "@type": "CourseInstance",
+            "courseMode": ["blended", "classroom", "online"],
+            "location": "Bangalore",
+            "courseSchedule": {
+              "@type": "Schedule",
+              "duration": dbCourse.duration || "3 Months",
+              "repeatFrequency": "Daily",
+              "byDay": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+            }
+          }
+        });
+
+        // FAQ Schema if FAQs exist in the course record
+        const faqs = dbCourse.faqs;
+        if (faqs && Array.isArray(faqs) && faqs.length > 0) {
+          graph.push({
+            "@type": "FAQPage",
+            "mainEntity": faqs.map((faq: any) => ({
+              "@type": "Question",
+              "name": faq.q,
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": faq.a
+              }
+            }))
+          });
+        }
+
+        schemaData = {
+          "@context": "https://schema.org",
+          "@graph": graph
+        };
+      }
+    }
+  } catch (err) {
+    console.error('Error fetching route metadata from SQLite:', err);
+  }
+
+  // Construct injected tags
+  let headTags = `
+    <title>${title}</title>
+    <meta name="description" content="${description}" />
+    <meta name="keywords" content="${keywords}" />
+    <link rel="canonical" href="${canonicalUrl}" />
+    <meta property="og:title" content="${title}" />
+    <meta property="og:description" content="${description}" />
+    <meta property="og:url" content="${canonicalUrl}" />
+    <meta property="og:image" content="${imageUrl}" />
+    <meta property="og:type" content="${type}" />
+    <meta property="og:site_name" content="Appteknow Careers" />
+    <meta property="og:locale" content="en_IN" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="${title}" />
+    <meta name="twitter:description" content="${description}" />
+    <meta name="twitter:image" content="${imageUrl}" />
+    <meta name="twitter:site" content="@appteknow" />
+    <meta name="twitter:creator" content="@appteknow" />
+  `;
+
+  if (schemaData) {
+    headTags += `
+    <script type="application/ld+json">${JSON.stringify(schemaData)}</script>
+    `;
+  }
+
+  // Clean out default template title and description tags to avoid duplicate headers
+  const titleTagRegex = /<title>[^<]*<\/title>/i;
+  const descTagRegex = /<meta\s+name="description"\s+content="[^"]*"\s*\/?>/i;
+
+  if (titleTagRegex.test(html)) {
+    html = html.replace(titleTagRegex, '');
+  }
+  if (descTagRegex.test(html)) {
+    html = html.replace(descTagRegex, '');
+  }
+
+  // Inject resolved elements at the top of the HTML header block
+  html = html.replace('<head>', `<head>${headTags}`);
+
+  res.send(html);
+});
+
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

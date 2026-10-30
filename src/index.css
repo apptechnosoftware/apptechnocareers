@@ -1,0 +1,77 @@
+@import './styles/variables.css';
+
+/* Global Utility Classes */
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+
+.section-padding {
+  padding: var(--spacing-section) 0;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.grid {
+  display: grid;
+}
+
+/* Scrollbar custom styling for premium feel */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-background-alt);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary-light);
+}
+
+/* Basic layout component classes */
+.section-title {
+  font-size: 2.2rem;
+  margin-bottom: var(--spacing-md);
+  position: relative;
+}
+
+.section-subtitle {
+  color: var(--color-text-light);
+  font-size: 1.1rem;
+  max-width: 700px;
+  margin: 0 auto var(--spacing-xl) auto;
+}
+
+/* Highlight elements */
+.text-accent {
+  color: var(--color-accent);
+}
+
+.bg-primary {
+  background-color: var(--color-primary);
+  color: white !important;
+}
+
+.bg-alt {
+  background-color: var(--color-background-alt);
+}
