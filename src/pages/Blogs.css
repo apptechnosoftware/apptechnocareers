@@ -1,0 +1,323 @@
+/* ── Blogs Directory Styles ─────────────────────────────────────────── */
+
+.blogs-page {
+  background-color: #f8fafc;
+  min-height: 100vh;
+  padding-bottom: 80px;
+}
+
+/* Hero Section */
+.blogs-hero {
+  background: linear-gradient(135deg, #0f2b66 0%, #1a56db 100%);
+  color: #ffffff;
+  padding: 60px 0 50px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.blogs-hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -20%;
+  width: 140%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 186, 0, 0.15) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.blogs-hero__badge {
+  display: inline-block;
+  background: rgba(255, 186, 0, 0.2);
+  color: #ffba00;
+  border: 1px solid rgba(255, 186, 0, 0.4);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 16px;
+  border-radius: 30px;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.blogs-hero__title {
+  font-size: 40px;
+  font-weight: 800;
+  margin-bottom: 14px;
+  line-height: 1.25;
+}
+
+.blogs-hero__title span {
+  color: #ffba00;
+}
+
+.blogs-hero__subtitle {
+  font-size: 17px;
+  color: #e2e8f0;
+  max-width: 680px;
+  margin: 0 auto 30px;
+  line-height: 1.6;
+}
+
+/* Search Bar */
+.blogs-search {
+  max-width: 520px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.blogs-search input {
+  width: 100%;
+  padding: 16px 20px 16px 50px;
+  font-size: 15px;
+  border-radius: 50px;
+  border: none;
+  outline: none;
+  background: #ffffff;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  color: #1e293b;
+}
+
+.blogs-search__icon {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #64748b;
+  font-size: 18px;
+}
+
+/* Category Filter Tabs */
+.blogs-filter-bar {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 40px 0 35px;
+}
+
+.blogs-filter-btn {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  color: #475569;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.blogs-filter-btn:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #1e293b;
+}
+
+.blogs-filter-btn.active {
+  background: #1a56db;
+  color: #ffffff;
+  border-color: #1a56db;
+  box-shadow: 0 4px 12px rgba(26, 86, 219, 0.25);
+}
+
+/* Blogs Grid */
+.blogs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 30px;
+  margin-bottom: 50px;
+}
+
+.blog-card {
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid #edf2f7;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.blog-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.1);
+}
+
+.blog-card__image-wrap {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #0f2b66 0%, #1a56db 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.blog-card__image-fallback-icon {
+  font-size: 48px;
+  color: rgba(255, 255, 255, 0.35);
+  pointer-events: none;
+}
+
+.blog-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.blog-card:hover .blog-card__image {
+  transform: scale(1.05);
+}
+
+.blog-card__category {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: #1a56db;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 5px 12px;
+  border-radius: 20px;
+}
+
+.blog-card__body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.blog-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 12px;
+}
+
+.blog-card__meta span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.blog-card__title {
+  font-size: 19px;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.4;
+  margin-bottom: 12px;
+  transition: color 0.2s ease;
+}
+
+.blog-card__title:hover {
+  color: #1a56db;
+}
+
+.blog-card__excerpt {
+  font-size: 14px;
+  color: #475569;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  flex-grow: 1;
+}
+
+.blog-card__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.blog-card__author {
+  font-size: 12px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.blog-card__read-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #1a56db;
+  text-decoration: none;
+  transition: gap 0.2s ease;
+}
+
+.blog-card__read-more:hover {
+  gap: 10px;
+  color: #0f2b66;
+}
+
+/* CTA Banner */
+.blogs-cta-banner {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  border-radius: 20px;
+  padding: 50px 40px;
+  color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  border: 1px solid rgba(255, 186, 0, 0.3);
+}
+
+.blogs-cta-banner__content h3 {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.blogs-cta-banner__content h3 span {
+  color: #ffba00;
+}
+
+.blogs-cta-banner__content p {
+  font-size: 15px;
+  color: #d1d5db;
+  max-width: 580px;
+}
+
+.blogs-cta-banner__btn {
+  background: #ffba00;
+  color: #0f172a;
+  padding: 14px 28px;
+  border-radius: 30px;
+  font-weight: 800;
+  font-size: 15px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+
+.blogs-cta-banner__btn:hover {
+  background: #e6a700;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255, 186, 0, 0.4);
+}
+
+@media (max-width: 768px) {
+  .blogs-hero__title {
+    font-size: 28px;
+  }
+  .blogs-grid {
+    grid-template-columns: 1fr;
+  }
+  .blogs-cta-banner {
+    flex-direction: column;
+    text-align: center;
+  }
+}

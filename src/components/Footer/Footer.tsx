@@ -57,6 +57,7 @@ const Footer = () => {
               <li><Link to="/digital-marketing-courses"><ArrowRight size={14} /> Digital Marketing</Link></li>
               <li><Link to="/tally-training-in-bangalore"><ArrowRight size={14} /> Tally ERP 9 + GST</Link></li>
               <li><Link to="/softskills-aptitude-training"><ArrowRight size={14} /> Soft Skills</Link></li>
+              <li><Link to="/blogs"><ArrowRight size={14} /> Tech Blogs & Guides</Link></li>
               <li><Link to="/placements"><ArrowRight size={14} /> Recent Placements</Link></li>
             </ul>
           </div>

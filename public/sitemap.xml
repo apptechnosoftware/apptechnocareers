@@ -1,110 +1,166 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Main Pages -->
+  <!-- Core Main Pages -->
   <url>
     <loc>https://appteknow.com/</loc>
-    <lastmod>2026-06-22</lastmod>
-    <changefreq>weekly</changefreq>
+    <lastmod>2026-10-30</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://appteknow.com/placements</loc>
-    <lastmod>2026-06-22</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://appteknow.com/AI-Mock-Jobs</loc>
-    <lastmod>2026-06-22</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://appteknow.com/learn-english-with-ai</loc>
-    <lastmod>2026-06-22</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://appteknow.com/on-going-interviews</loc>
-    <lastmod>2026-06-22</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
+    <lastmod>2026-10-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://appteknow.com/contact</loc>
-    <lastmod>2026-06-22</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- IT Course Pages -->
+  <!-- IT & Non-IT Courses -->
   <url>
     <loc>https://appteknow.com/java-training-in-bangalore-from-it-companies-with-ai-tools</loc>
-    <lastmod>2026-06-22</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://appteknow.com/python-training-in-bangalore-from-it-companies-with-ai-tools</loc>
-    <lastmod>2026-06-22</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://appteknow.com/software-testing-selenium-with-al-from-it-companies</loc>
-    <lastmod>2026-06-22</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://appteknow.com/mern-training-in-bangalore-from-it-companies-with-ai-tools-2</loc>
-    <lastmod>2026-06-22</lastmod>
+    <lastmod>2026-10-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://appteknow.com/cyber-security-courses-in-bangalore</loc>
+    <lastmod>2026-10-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://appteknow.com/data-analytics-course-in-bangalore-from-it-companies</loc>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://appteknow.com/cyber-security-courses-in-bangalore</loc>
-    <lastmod>2026-06-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://appteknow.com/generative-ai-training-in-bangalore</loc>
-    <lastmod>2026-06-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://appteknow.com/other-tech-bootcamp</loc>
-    <lastmod>2026-06-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <!-- Non-IT / Data Analytics Courses -->
-  <url>
-    <loc>https://appteknow.com/data-analytics-course-in-bangalore-from-it-companies</loc>
-    <lastmod>2026-06-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://appteknow.com/digital-marketing-courses</loc>
-    <lastmod>2026-06-22</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://appteknow.com/tally-training-in-bangalore</loc>
-    <lastmod>2026-06-22</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://appteknow.com/softskills-aptitude-training</loc>
-    <lastmod>2026-06-22</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+
+  <!-- Blogs Catalog -->
+  <url>
+    <loc>https://appteknow.com/blogs</loc>
+    <lastmod>2026-10-30</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- 10 SEO Blog Guides -->
+  <url>
+    <loc>https://appteknow.com/blogs/top-it-courses-for-freshers-in-bangalore-2027</loc>
+    <lastmod>2026-10-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://appteknow.com/blogs/full-stack-python-developer-roadmap-for-freshers</loc>
+    <lastmod>2026-10-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://appteknow.com/blogs/how-to-become-a-data-analyst-in-bangalore</loc>
+    <lastmod>2026-10-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://appteknow.com/blogs/manual-testing-vs-automation-testing-for-freshers</loc>
+    <lastmod>2026-10-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://appteknow.com/blogs/how-to-get-your-first-it-job-in-bangalore</loc>
+    <lastmod>2026-10-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://appteknow.com/blogs/15-common-it-interview-questions-for-freshers</loc>
+    <lastmod>2026-10-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://appteknow.com/blogs/why-communication-skills-matter-in-it-jobs</loc>
+    <lastmod>2026-10-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://appteknow.com/blogs/digital-marketing-career-for-freshers-bangalore</loc>
+    <lastmod>2026-10-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://appteknow.com/blogs/best-job-oriented-courses-after-graduation-bangalore</loc>
+    <lastmod>2026-10-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://appteknow.com/blogs/it-training-institute-in-btm-layout-things-to-check</loc>
+    <lastmod>2026-10-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
 </urlset>

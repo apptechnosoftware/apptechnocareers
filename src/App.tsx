@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
+
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import Home from './pages/Home';
@@ -19,17 +19,13 @@ import MockPaymentGateway from './pages/MockPaymentGateway';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsAndConditions from './pages/TermsAndConditions';
 import Disclaimer from './pages/Disclaimer';
+import Blogs from './pages/Blogs';
+import BlogDetail from './pages/BlogDetail';
+import RouteTracker from './components/RouteTracker/RouteTracker';
 import FloatingWidgets from './components/FloatingWidgets/FloatingWidgets';
 import './App.css';
 
-// Automatically scrolls window back to top when route changes
-const ScrollToTop = () => {
-  const { pathname } = useLocation();
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
-  return null;
-};
+
 
 function AppContent() {
   const location = useLocation();
@@ -37,7 +33,7 @@ function AppContent() {
 
   return (
     <div className="app-wrapper">
-      <ScrollToTop />
+      <RouteTracker />
       
       {/* Common Header Layout (Hidden for secure admin gateways) */}
       {!isAdminRoute && <Header />}
@@ -66,6 +62,10 @@ function AppContent() {
           <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
           <Route path="/disclaimer" element={<Disclaimer />} />
           
+          {/* SEO Technical Blogs & Guides */}
+          <Route path="/blogs" element={<Blogs />} />
+          <Route path="/blogs/:slug" element={<BlogDetail />} />
+
           {/* Fallback dynamic routing for SEO course slugs */}
           <Route path="/:id" element={<CourseDetail />} />
           
