@@ -102,16 +102,16 @@ const ThankYouPage = () => {
           )}
 
           {/* Syllabus Catalog Section */}
-          <div className="syllabus-section">
-            <div className="section-header">
+          <div className="thankyou-syllabus-section">
+            <div className="thankyou-section-header">
               <BookOpen size={24} color="#818cf8" />
               <h2>Download Course Syllabus Brochures</h2>
             </div>
             
-            <div className="syllabus-grid">
+            <div className="thankyou-syllabus-grid">
               {courseList.length > 0 ? (
                 courseList.map((course) => (
-                  <div key={course.id} className={`syllabus-card ${targetCourseKey === course.emailKey ? 'highlighted-card' : ''}`}>
+                  <div key={course.id} className={`thankyou-syllabus-card ${targetCourseKey === course.emailKey ? 'highlighted-card' : ''}`}>
                     {targetCourseKey === course.emailKey && (
                       <span className="download-badge">Requested Course</span>
                     )}

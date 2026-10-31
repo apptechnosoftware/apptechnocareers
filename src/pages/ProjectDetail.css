@@ -293,9 +293,9 @@
 }
 
 /* Sticky Adjust */
-.sticky-sidebar {
+.project-sticky-sidebar {
   position: sticky;
-  top: 100px;
+  top: 130px;
 }
 
 /* Responsiveness */
@@ -307,7 +307,7 @@
   .blueprint-article {
     padding-right: 0;
   }
-  .sticky-sidebar {
+  .project-sticky-sidebar {
     position: static;
   }
 }

@@ -175,7 +175,7 @@ const ProjectDetail = () => {
 
             {/* Sidebar Graduate Profile Card */}
             <div className="blueprint-sidebar">
-              <div className="sticky-sidebar">
+              <div className="project-sticky-sidebar">
                 {/* Profile Card */}
                 <div className="graduate-profile-card">
                   <div className="avatar-ring">

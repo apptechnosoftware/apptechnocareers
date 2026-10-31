@@ -33,7 +33,7 @@ export const allBlogs: BlogPost[] = [
     "date": "Oct 30, 2026",
     "author": "Appteknow Careers Team",
     "excerpt": "Explore top IT courses in Bangalore for 2027: Full Stack, Python, Data Analytics, Testing, and Digital Marketing with placement guidance.",
-    "image": "https://appteknow.com/wp-content/uploads/2025/01/1-1024x576.png",
+    "image": "/blogs/blog-1.png",
     "sections": [
       {
         "type": "paragraph",
@@ -84,7 +84,7 @@ export const allBlogs: BlogPost[] = [
     "date": "Oct 30, 2026",
     "author": "Appteknow Careers Team",
     "excerpt": "Complete step-by-step roadmap to become a Job-Ready Full Stack Python Developer with frontend, Django/FastAPI, databases, and AI tools.",
-    "image": "https://appteknow.com/wp-content/uploads/2025/01/2-1024x576.png",
+    "image": "/blogs/blog-2.png",
     "sections": [
       {
         "type": "paragraph",
@@ -135,7 +135,7 @@ export const allBlogs: BlogPost[] = [
     "date": "Oct 30, 2026",
     "author": "Appteknow Careers Team",
     "excerpt": "Comprehensive roadmap for entry-level professionals to master Excel, SQL, Power BI, Python, and land Data Analyst roles in Bangalore.",
-    "image": "https://appteknow.com/wp-content/uploads/2025/01/3-1024x576.png",
+    "image": "/blogs/blog-3.png",
     "sections": [
       {
         "type": "paragraph",
@@ -153,7 +153,7 @@ export const allBlogs: BlogPost[] = [
     "date": "Oct 30, 2026",
     "author": "Appteknow Careers Team",
     "excerpt": "Compare Manual Testing and Automation Testing (Selenium, Java, API testing) to choose the best career path with high demand in Bangalore.",
-    "image": "https://appteknow.com/wp-content/uploads/2025/01/4-1024x576.png",
+    "image": "/blogs/blog-4.png",
     "sections": [
       {
         "type": "paragraph",
@@ -204,7 +204,7 @@ export const allBlogs: BlogPost[] = [
     "date": "Oct 30, 2026",
     "author": "Appteknow Careers Team",
     "excerpt": "Actionable strategies for non-IT and IT graduates to build real-world project portfolios, optimize resumes, clear interviews, and get hired.",
-    "image": "https://appteknow.com/wp-content/uploads/2025/01/1-1024x576.png",
+    "image": "/blogs/blog-5.png",
     "sections": [
       {
         "type": "paragraph",
@@ -255,7 +255,7 @@ export const allBlogs: BlogPost[] = [
     "date": "Oct 30, 2026",
     "author": "Appteknow Careers Team",
     "excerpt": "Master the top 15 technical and HR interview questions asked by Bangalore IT companies, with clear explanations and example answers.",
-    "image": "https://appteknow.com/wp-content/uploads/2025/01/2-1024x576.png",
+    "image": "/blogs/blog-6.png",
     "sections": [
       {
         "type": "paragraph",
@@ -306,7 +306,7 @@ export const allBlogs: BlogPost[] = [
     "date": "Oct 30, 2026",
     "author": "Appteknow Careers Team",
     "excerpt": "Learn why technical knowledge alone is not enough, and how clear verbal, written, and interview communication doubles your hiring chances.",
-    "image": "https://appteknow.com/wp-content/uploads/2025/01/3-1024x576.png",
+    "image": "/blogs/blog-7.png",
     "sections": [
       {
         "type": "paragraph",
@@ -324,7 +324,7 @@ export const allBlogs: BlogPost[] = [
     "date": "Oct 30, 2026",
     "author": "Appteknow Careers Team",
     "excerpt": "Discover high-growth career opportunities in Digital Marketing in Bangalore, mastering SEO, Meta Ads, Google Ads, Content, and AI workflows.",
-    "image": "https://appteknow.com/wp-content/uploads/2025/01/4-1024x576.png",
+    "image": "/blogs/blog-8.png",
     "sections": [
       {
         "type": "paragraph",
@@ -375,7 +375,7 @@ export const allBlogs: BlogPost[] = [
     "date": "Oct 30, 2026",
     "author": "Appteknow Careers Team",
     "excerpt": "A comprehensive evaluation of the best employment-focused courses after degree (B.E, B.Tech, BCA, B.Sc, B.Com) to transition into IT.",
-    "image": "https://appteknow.com/wp-content/uploads/2025/01/1-1024x576.png",
+    "image": "/blogs/blog-9.png",
     "sections": [
       {
         "type": "paragraph",
@@ -393,7 +393,7 @@ export const allBlogs: BlogPost[] = [
     "date": "Oct 30, 2026",
     "author": "Appteknow Careers Team",
     "excerpt": "7 essential checkpoints before choosing an IT training center in BTM Layout, Bangalore: live projects, real trainers, placement track record, and fee transparency.",
-    "image": "https://appteknow.com/wp-content/uploads/2025/01/2-1024x576.png",
+    "image": "/blogs/blog-10.png",
     "sections": [
       {
         "type": "paragraph",

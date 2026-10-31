@@ -114,7 +114,6 @@ export default function Blogs() {
                   <p className="blog-card__excerpt">{blog.excerpt}</p>
 
                   <div className="blog-card__footer">
-                    <span className="blog-card__author">{blog.author}</span>
                     <Link to={`/blogs/${blog.slug}`} className="blog-card__read-more">
                       Read Guide <ArrowRight size={14} />
                     </Link>

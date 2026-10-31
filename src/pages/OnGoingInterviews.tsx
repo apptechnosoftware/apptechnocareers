@@ -139,7 +139,7 @@ const OnGoingInterviews = () => {
           }}>
             <CalendarDays size={14} /> Verified Active Drives
           </div>
-          <h1 style={{ fontSize: '2.8rem', fontWeight: 800, marginBottom: '1rem', letterSpacing: '-0.5px' }}>
+          <h1 style={{ color: '#ffffff', fontSize: '2.8rem', fontWeight: 800, marginBottom: '1rem', letterSpacing: '-0.5px' }}>
             Ongoing Job Drives
           </h1>
           <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: '1.1rem', lineHeight: '1.6', maxWidth: '700px', margin: '0 auto' }}>

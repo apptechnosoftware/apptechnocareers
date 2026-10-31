@@ -9,7 +9,8 @@
 }
 
 .section-padding {
-  padding: var(--spacing-section) 0;
+  padding-top: var(--spacing-section);
+  padding-bottom: var(--spacing-section);
 }
 
 .text-center {

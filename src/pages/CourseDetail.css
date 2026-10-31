@@ -73,6 +73,10 @@
 }
 
 /* Syllabus Split Area */
+.syllabus-section {
+  scroll-margin-top: 130px;
+}
+
 .syllabus-grid {
   display: grid;
   grid-template-columns: 1.8fr 1.2fr;
@@ -136,7 +140,7 @@
 /* Sidebar sticky styles */
 .sticky-sidebar {
   position: sticky;
-  top: 140px;
+  top: 130px;
 }
 
 .sidebar-card {
